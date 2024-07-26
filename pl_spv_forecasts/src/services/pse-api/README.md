@@ -17,9 +17,10 @@ Data from the PSE website is acquired using the API as documented on the site: [
 API queries are made by sending HTTP GET requests to specific endpoints. Example endpoint:
 
 ```bash
-https://api.raporty.pse.pl/api/{entity}?
+https://api.raporty.pse.pl/api/{entity}?$filter=doba eq {date}
 ```
 - `entity`: name of the report, a full list of report names can be found on the website: [https://api.raporty.pse.pl/](https://api.raporty.pse.pl/).
+- `date`: date of energy delivery, despite the ability to declare a date range, the eq (equals) parameter was used because of the limits of the rows returned by API
 
 ### Response Structure
 

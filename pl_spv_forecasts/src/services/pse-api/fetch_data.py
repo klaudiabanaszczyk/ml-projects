@@ -10,7 +10,7 @@ class PseApi:
     """
     Class for interacting with the Polskie Sieci Elektroenergetyczne (PSE) API to fetch basic KSE data.
     """
-    
+
     start_date: date = field(default=date(2024,6,14))
     end_date: date = field(default=date.today()-timedelta(1))
     entity: str = field(default='his-wlk-cal')
@@ -37,14 +37,15 @@ class PseApi:
         """
         url = f"https://api.raporty.pse.pl/api/{self.entity}?$filter=doba eq '{selected_date}'"
         response = requests.get(url)
-        try:
-            df = DataFrame(response.json()['value'])
-            df['datetime'] = DatetimeIndex(to_datetime(df['udtczas']), tz='CET')
-            df = df.set_index('datetime')
-            df = df.sort_index()
-            return df
-        except:
-            raise StatusCodeNot200(response.status_code, response.reason)
+        match response.status_code:
+            case 200:
+                df = DataFrame(response.json()['value'])
+                df['datetime'] = DatetimeIndex(to_datetime(df['udtczas']), tz='CET')
+                df = df.set_index('datetime')
+                df = df.sort_index()
+                return df
+            case _:
+                raise StatusCodeNot200(response.status_code, response.reason)
 
 
     def fetch_pse_data(self):
