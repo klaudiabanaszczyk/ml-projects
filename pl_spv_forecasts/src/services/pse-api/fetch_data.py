@@ -14,9 +14,27 @@ class PseApi:
     start_date: date = field(default=date(2024,6,14))
     end_date: date = field(default=date.today()-timedelta(1))
     entity: str = field(default='his-wlk-cal')
-    
 
-    def fetch_pse_daily_data(self, selected_date: date) -> DataFrame:
+    
+    def call_pse_api(self, selected_date: date) -> DataFrame:
+        """
+        Gets response from the PSE API for the specified date.
+
+        Parameters
+        ----------
+        selected_date: date
+            The date for which to fetch the data.
+
+        Returns
+        -------
+        dict
+            The response from the PSE API.
+        """
+        url = f"https://api.raporty.pse.pl/api/{self.entity}?$filter=doba eq '{selected_date}'"
+        return requests.get(url)
+
+    
+    def _api_response_to_dataframe (self, selected_date: date) -> DataFrame:
         """
         Fetches daily data from the PSE API for the specified date.
 
@@ -35,8 +53,7 @@ class PseApi:
         StatusCodeNot200
             If the API request returns a non-200 status code.
         """
-        url = f"https://api.raporty.pse.pl/api/{self.entity}?$filter=doba eq '{selected_date}'"
-        response = requests.get(url)
+        response = self.call_pse_api(selected_date)
         match response.status_code:
             case 200:
                 df = DataFrame(response.json()['value'])
@@ -48,10 +65,10 @@ class PseApi:
                 raise StatusCodeNot200(response.status_code, response.reason)
 
 
-    def fetch_pse_data(self):
+    def fetch_pse_data(self) -> DataFrame:
         """
         Fetches data from the PSE API for the range of the given dates.
         """
         dates = [d.strftime('%Y-%m-%d') for d in date_range(self.start_date, self.end_date, freq='D')]
-        dfs = [self.fetch_pse_daily_data(selected_date) for selected_date in dates]
+        dfs = [self._api_response_to_dataframe (selected_date) for selected_date in dates]
         return concat(dfs)
