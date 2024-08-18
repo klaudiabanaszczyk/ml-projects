@@ -1,7 +1,6 @@
 from numpy import arange
-from geopandas import read_file,datasets
-from shapely.geometry import Point, Polygon
 from typing import Set, Tuple
+from geopandas import read_file, datasets
 
 
 def get_country_coords(country: str, step: float) -> Set[Tuple[float, float]]:
@@ -24,9 +23,9 @@ def get_country_coords(country: str, step: float) -> Set[Tuple[float, float]]:
 
     world = read_file(datasets.get_path('naturalearth_lowres'))
     country_geom = world.loc[world.name == country]
-    
+
     lon_min, lat_min, lon_max, lat_max = country_geom.total_bounds.round(2)
     lats = arange(lat_min, lat_max, step)
     lons = arange(lon_min, lon_max, step)
 
-    return {(lat,lon) for lat in lats for lon in lons}
+    return {(lat, lon) for lat in lats for lon in lons}

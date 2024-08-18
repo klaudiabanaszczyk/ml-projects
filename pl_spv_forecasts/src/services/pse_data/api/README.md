@@ -1,16 +1,8 @@
-# 
-
-## Data Source
-
-The data used in this project regarding actual values from the energy market are sourced from the official website of Polskie Sieci Elektroenergetyczne (PSE):
-
-[https://www.pse.pl/home](https://www.pse.pl/home)
-
-The website presents data on planned and current power flows in Poland, the demand and supplied power from various energy sources, as well as forecasted and settlement prices from the balancing market and additional services provided by PSE.
+# API data
 
 ## Data Acquisition Method
 
-Data from the PSE website is acquired using the API as documented on the site: [https://api.raporty.pse.pl/](https://api.raporty.pse.pl/)
+Data (from June 14, 2024) from the PSE website is acquired using the API as documented on the site: [https://api.raporty.pse.pl/](https://api.raporty.pse.pl/)
 
 ### Query Structure
 
@@ -71,7 +63,7 @@ The API can return various HTTP status codes indicating errors:
 - 404 Not Found: Resources not found (e.g., invalid endpoint).
 - 500 Internal Server Error: Server-side error.
 
-## Error handling
+## Requirements and limitations
 
 - No API key is required.
 - No query limits.
