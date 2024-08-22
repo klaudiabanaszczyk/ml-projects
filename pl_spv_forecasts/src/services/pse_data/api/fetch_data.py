@@ -2,7 +2,7 @@ from pandas import DataFrame,concat,date_range,to_datetime,DatetimeIndex
 from datetime import date,timedelta
 from dataclasses import dataclass,field
 import requests
-from ...exceptions.pse_service_exceptions import StatusCodeNot200
+from pl_spv_forecasts.src.exceptions.pse_service_exceptions import StatusCodeNot200
 
 
 @dataclass
