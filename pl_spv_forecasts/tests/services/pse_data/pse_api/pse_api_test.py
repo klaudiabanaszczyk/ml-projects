@@ -1,8 +1,11 @@
-# status code
 from datetime import date
+from json import JSONDecodeError
 from unittest import TestCase, main
 from unittest.mock import patch
+
 import requests
+from pytest import raises
+
 from pl_spv_forecasts.src.services.pse_data.api.fetch_data import PseApi
 
 
@@ -27,6 +30,23 @@ class TestPseApi(TestCase):
 
         result = PseApi().call_pse_api(self.testing_date)
         self.assertFalse(result)
+
+    @patch("pl_spv_forecasts.src.services.pse_data.api.fetch_data.requests.get")
+    def test_call_pse_api_returns_invalid_json(self, mock_requests):
+        mock_response = requests.Response()
+        mock_response.status_code = 200
+        mock_response._content = b''
+        mock_requests.return_value = mock_response
+
+        with raises(JSONDecodeError):
+            PseApi().call_pse_api(self.testing_date).json()
+
+    @patch("pl_spv_forecasts.src.services.pse_data.api.fetch_data.requests.get")
+    def test_call_pse_api_timeout_handling(self, mock_requests):
+        mock_requests.side_effect = requests.exceptions.Timeout
+
+        with raises(requests.exceptions.Timeout):
+            PseApi().call_pse_api(self.testing_date)
 
 
 if __name__ == "__main__":
