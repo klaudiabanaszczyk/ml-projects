@@ -38,7 +38,7 @@ pip install requests pandas tqdm
 ```
 
 ### How to Run the Code
-1. Save the code to a file, for example, pse_data_acquisition.py.
+1. Save the code to a file, for example, pse_data_acquisition.py. 
 2. Run the script using Python from your terminal or command prompt:
 
 ```bash
