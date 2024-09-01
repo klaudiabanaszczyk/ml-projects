@@ -1,0 +1,6 @@
+site_name: SPV forecasts
+
+nav:
+  - Home: index.md
+  - PSE: pse_data.md
+  - Meteo: meteo_data.md
