@@ -15,7 +15,7 @@ class PseApi:
     end_date: date = field(default=date.today()-timedelta(1))
     entity: str = field(default='his-wlk-cal')
 
-    
+
     def call_pse_api(self, selected_date: date) -> DataFrame:
         """
         Gets response from the PSE API for the specified date.
@@ -33,7 +33,7 @@ class PseApi:
         url = f"https://api.raporty.pse.pl/api/{self.entity}?$filter=doba eq '{selected_date}'"
         return requests.get(url)
 
-    
+
     def _api_response_to_dataframe (self, selected_date: date) -> DataFrame:
         """
         Fetches daily data from the PSE API for the specified date.

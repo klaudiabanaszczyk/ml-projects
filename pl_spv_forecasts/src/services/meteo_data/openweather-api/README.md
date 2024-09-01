@@ -78,7 +78,7 @@ pip install requests pandas
 ```
 
 ### How to Run the Code
-1. Save the code to a file, for example, openweather_api.py. 
+1. Save the code to a file, for example, openweather_api.py.
 2. Run the script using Python from your terminal or command prompt:
 
 ```bash
